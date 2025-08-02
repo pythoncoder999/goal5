@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Discipline & Goals Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b69 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab.active {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quiz-question {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #ffd700;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quiz-option {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .quiz-option.correct {
+            border-color: #4ade80;
+            background: rgba(74, 222, 128, 0.2);
+            animation: correctAnswer 0.6s ease-out;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.2);
+            animation: shake 0.6s ease-out;
+        }
+
+        .quiz-score {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .score-circle {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(#4ade80 0deg, #4ade80 var(--score-angle), rgba(255,255,255,0.2) var(--score-angle));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 20px;
+        }
+
+        /* 5-Year Projection */
+        .projection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .year-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .year-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .year-card:hover::before {
+            left: 100%;
+        }
+
+        .year-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .year-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .year-amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #4ade80;
+            margin-bottom: 10px;
+        }
+
+        .year-multiplier {
+            font-size: 1.1rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .year-details {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        /* Daily Challenge */
+        .challenge-container {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2));
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        .challenge-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+
+        .challenge-text {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .challenge-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .challenge-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .challenge-btn.accept {
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+            color: white;
+        }
+
+        .challenge-btn.decline {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .challenge-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        /* Streak Counter */
+        .streak-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .streak-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .streak-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .streak-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .motivational-quote {
+            text-align: center;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #ffd700;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            border-left: 4px solid #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .projection-grid { grid-template-columns: 1fr; }
+            .year-amount { font-size: 1.8rem; }
+            .challenge-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Trading Mastery Hub</h1>
+            <p>Transform discipline into millions - Your 5-year journey starts today</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('quiz')">Daily Quiz</button>
+            <button class="tab" onclick="showTab('projection')">5-Year Vision</button>
+            <button class="tab" onclick="showTab('challenge')">Daily Challenge</button>
+            <button class="tab" onclick="showTab('progress')">My Progress</button>
+        </div>
+
+        <!-- Daily Quiz Tab -->
+        <div id="quiz" class="tab-content active">
+            <div class="quiz-container">
+                <div class="quiz-score">
+                    <div class="score-circle" id="scoreCircle" style="--score-angle: 0deg;">
+                        <span id="scoreText">0/0</span>
+                    </div>
+                    <p>Discipline Score Today</p>
+                </div>
+                
+                <div id="quizContent">
+                    <div class="quiz-question" id="questionText">
+                        Loading your discipline challenge...
+                    </div>
+                    <div class="quiz-options" id="quizOptions">
+                        <!-- Options will be populated by JavaScript -->
+                    </div>
+                    <button onclick="nextQuestion()" id="nextBtn" style="display: none; padding: 12px 30px; background: linear-gradient(45deg, #4ade80, #22c55e); border: none; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; margin: 0 auto; display: block;">Next Question</button>
+                </div>
+            </div>
+            
+            <div class="motivational-quote" id="motivationalQuote">
+                "You've already proven you can double your money quarterly. Stay disciplined and the universe is your limit."
+            </div>
+        </div>
+
+        <!-- 5-Year Projection Tab -->
+        <div id="projection" class="tab-content">
+            <div class="projection-grid">
+                <div class="year-card">
+                    <div class="year-number">2025</div>
+                    <div class="year-amount">$480K</div>
+                    <div class="year-multiplier">16x your start</div>
+                    <div class="year-details">
+                        Continuing 100% quarterly growth<br>
+                        From $30K → $480K<br>
+                        <strong>Annual Profit: $450K</strong>
+                    </div>
+                </div>
+
+                <div class="year-card">
+                    <div class="year-number">2026</div>
+                    <div class="year-amount">$7.7M</div>
+                    <div class="year-multiplier">256x your start</div>
+                    <div class="year-details">
+                        Compound magic in full effect<br>
+                        From $480K → $7.7M<br>
+                        <strong>This year profit: $7.2M</strong>
+                    </div>
+                </div>
+
+                <div class="year-card">
+                    <div class="year-number">2027</div>
+                    <div class="year-amount">$123M</div>
+                    <div class="year-multiplier">4,096x your start</div>
+                    <div class="year-details">
+                        Nine-figure territory achieved<br>
+                        From $7.7M → $123M<br>
+                        <strong>This year profit: $115M</strong>
+                    </div>
+                </div>
+
+                <div class="year-card">
+                    <div class="year-number">2028</div>
+                    <div class="year-amount">$1.97B</div>
+                    <div class="year-multiplier">65,536x your start</div>
+                    <div class="year-details">
+                        Billionaire status unlocked<br>
+                        From $123M → $1.97B<br>
+                        <strong>This year profit: $1.84B</strong>
+                    </div>
+                </div>
+
+                <div class="year-card">
+                    <div class="year-number">2029</div>
+                    <div class="year-amount">$31.5B</div>
+                    <div class="year-multiplier">1,048,576x your start</div>
+                    <div class="year-details">
+                        Among world's richest people<br>
+                        From $1.97B → $31.5B<br>
+                        <strong>This year profit: $29.5B</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="motivational-quote">
+                "These numbers aren't fantasy - they're what happens when 100% quarterly growth compounds over 5 years. Stay the course!"
+            </div>
+        </div>
+
+        <!-- Daily Challenge Tab -->
+        <div id="challenge" class="tab-content">
+            <div class="challenge-container">
+                <div class="challenge-title">Today's Discipline Challenge</div>
+                <div class="challenge-text" id="challengeText">
+                    Loading your personalized challenge...
+                </div>
+                <div class="challenge-buttons">
+                    <button class="challenge-btn accept" onclick="acceptChallenge()">I Accept! 🚀</button>
+                    <button class="challenge-btn decline" onclick="declineChallenge()">Maybe Tomorrow 😅</button>
+                </div>
+            </div>
+
+            <div class="streak-container">
+                <div class="streak-card">
+                    <div class="streak-number" id="acceptStreak">0</div>
+                    <div class="streak-label">Challenge Streak</div>
+                </div>
+                <div class="streak-card">
+                    <div class="streak-number" id="quizStreak">0</div>
+                    <div class="streak-label">Quiz Streak</div>
+                </div>
+                <div class="streak-card">
+                    <div class="streak-number" id="totalPoints">0</div>
+                    <div class="streak-label">Discipline Points</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Tab -->
+        <div id="progress" class="tab-content">
+            <div class="streak-container">
+                <div class="streak-card">
+                    <div class="streak-number">$30K</div>
+                    <div class="streak-label">Starting Point</div>
+                </div>
+                <div class="streak-card">
+                    <div class="streak-number">$60K</div>
+                    <div class="streak-label">Current Value</div>
+                </div>
+                <div class="streak-card">
+                    <div class="streak-number">100%</div>
+                    <div class="streak-label">Q1 Growth</div>
+                </div>
+                <div class="streak-card">
+                    <div class="streak-number">$120K</div>
+                    <div class="streak-label">Q2 Target</div>
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #ffd700;">Your Trading Journey</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px;">
+                        <h3 style="color: #4ade80; margin-bottom: 15px;">Achievements Unlocked</h3>
+                        <p>✅ 100% Quarterly Return</p>
+                        <p>✅ Doubled Initial Capital</p>
+                        <p>✅ Consistent Growth Pattern</p>
+                        <p>✅ Risk Management Active</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px;">
+                        <h3 style="color: #ffd700; margin-bottom: 15px;">Next Milestones</h3>
+                        <p>🎯 Reach $120K (Q2)</p>
+                        <p>🎯 $240K (Q3)</p>
+                        <p>🎯 $480K (Year End)</p>
+                        <p>🎯 First Million (2025)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz System
+        const quizQuestions = [
+            {
+                question: "You see a 'guaranteed' 200% return opportunity. What do you do?",
+                options: [
+                    "Jump in immediately - sounds amazing!",
+                    "Research thoroughly, check if it fits my proven strategy",
+                    "Put all my capital in - bigger returns!",
+                    "Ask random people on social media for advice"
+                ],
+                correct: 1,
+                explanation: "Stick to your proven strategy that already delivers 100% quarterly returns!"
+            },
+            {
+                question: "Your portfolio drops 10% in a day. Your reaction?",
+                options: [
+                    "Panic sell everything immediately",
+                    "Review my risk management rules and stick to the plan",
+                    "Double down and invest more",
+                    "Blame the market and quit trading"
+                ],
+                correct: 1,
+                explanation: "Discipline means following your plan even during volatility!"
+            },
+            {
+                question: "You've made 50% profit this month. What's next?",
+                options: [
+                    "Celebrate by risking it all on a moonshot",
+                    "Take some profits and stick to position sizing rules",
+                    "Tell everyone on social media",
+                    "Quit while ahead"
+                ],
+                correct: 1,
+                explanation: "Consistent profits come from consistent discipline, not luck!"
+            },
+            {
+                question: "A friend asks for trading advice. You say:",
+                options: [
+                    "Copy all my trades exactly",
+                    "Here's my strategy, guaranteed 100% returns",
+                    "Learn the fundamentals first, never risk what you can't lose",
+                    "Trading is easy, just buy low sell high"
+                ],
+                correct: 2,
+                explanation: "Good traders emphasize education and risk management first!"
+            },
+            {
+                question: "Your goal is $480K this year. Today you're at $65K. You feel:",
+                options: [
+                    "Worried - I'm behind schedule",
+                    "Confident - I'm ahead of my Q1 target of $60K",
+                    "Tempted to take bigger risks to catch up",
+                    "Ready to quit - it's impossible"
+                ],
+                correct: 1,
+                explanation: "You're actually AHEAD of schedule! Trust the compound process."
+            }
+        ];
+
+        const challenges = [
+            "Review your top 3 trades from last week - what made them successful?",
+            "Spend 30 minutes studying a new trading strategy or market analysis technique",
+            "Calculate your exact position size for your next trade using proper risk management",
+            "Write down 3 emotions you felt during your last losing trade and how to manage them",
+            "Research one company you're considering investing in for 45 minutes",
+            "Practice mindfulness for 10 minutes before your trading session",
+            "Review and update your trading journal with recent trades",
+            "Study charts for 30 minutes without making any trades - pure analysis",
+            "Calculate what your portfolio will be worth if you maintain current growth for 6 more months",
+            "Identify one bad trading habit and create a plan to eliminate it"
+        ];
+
+        const motivationalQuotes = [
+            "Discipline is the bridge between your current $60K and your $480K goal.",
+            "You've already proven the impossible - 100% quarterly returns. Stay the course.",
+            "Every disciplined action today compounds into millions tomorrow.",
+            "Your competition gives up after one bad day. You double your money every quarter.",
+            "The market rewards patience and punishes emotion. You have both under control.",
+            "From $30K to potentially $31.5B in 5 years - compound growth is magical.",
+            "Risk management isn't limiting your gains, it's ensuring you keep them.",
+            "You're not just trading money, you're building a financial empire."
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let quizCompleted = false;
+
+        // Storage functions (using variables instead of localStorage)
+        let streakData = {
+            acceptStreak: 0,
+            quizStreak: 0,
+            totalPoints: 0,
+            lastQuizDate: null,
+            lastChallengeDate: null
+        };
+
+        function loadStreakData() {
+            document.getElementById('acceptStreak').textContent = streakData.acceptStreak;
+            document.getElementById('quizStreak').textContent = streakData.quizStreak;
+            document.getElementById('totalPoints').textContent = streakData.totalPoints;
+        }
+
+        function saveStreakData() {
+            // Data persists during session only
+            loadStreakData();
+        }
+
+        // Tab System
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'quiz' && !quizCompleted) {
+                loadQuestion();
+            } else if (tabName === 'challenge') {
+                loadDailyChallenge();
+            }
+        }
+
+        // Quiz Functions
+        function loadQuestion() {
+            if (currentQuestionIndex >= quizQuestions.length) {
+                completeQuiz();
+                return;
+            }
+
+            const question = quizQuestions[currentQuestionIndex];
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'quiz-option';
+                optionDiv.textContent = option;
+                optionDiv.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            document.getElementById('nextBtn').style.display = 'none';
+            updateScoreDisplay();
+        }
+
+        function selectAnswer(selectedIndex) {
+            const question = quizQuestions[currentQuestionIndex];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach((option, index) => {
+                option.onclick = null; // Disable further clicks
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === question.correct) {
+                score++;
+                streakData.totalPoints += 10;
+            } else {
+                streakData.totalPoints += 2; // Participation points
+            }
+
+            setTimeout(() => {
+                document.getElementById('nextBtn').style.display = 'block';
+            }, 1500);
+
+            updateScoreDisplay();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex >= quizQuestions.length) {
+                completeQuiz();
+            } else {
+                loadQuestion();
+            }
+        }
+
+        function completeQuiz() {
+            quizCompleted = true;
+            streakData.quizStreak++;
+            streakData.lastQuizDate = new Date().toDateString();
+            
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            
+            document.getElementById('quizContent').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: #4ade80; margin-bottom: 20px;">Quiz Complete! 🎉</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">
+                        You scored ${score}/${quizQuestions.length} (${percentage}%)
+                    </p>
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                        <h3 style="color: #ffd700; margin-bottom: 15px;">Discipline Analysis</h3>
+                        <p>${getDisciplineAnalysis(percentage)}</p>
+                    </div>
+                    <button onclick="resetQuiz()" style="padding: 15px 30px; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); border: none; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; margin-top: 20px;">
+                        Take Quiz Again Tomorrow
+                    </button>
+                </div>
+            `;
+            
+            saveStreakData();
+            updateScoreDisplay();
+        }
+
+        function getDisciplineAnalysis(percentage) {
+            if (percentage >= 80) {
+                return "Excellent discipline! You're thinking like a pro trader. Your path to $31.5B by 2029 is clear.";
+            } else if (percentage >= 60) {
+                return "Good discipline foundation! Review the questions you missed to strengthen your trading mindset.";
+            } else {
+                return "Time to sharpen your discipline! Remember, emotional decisions are the enemy of compound growth.";
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            quizCompleted = false;
+            loadQuestion();
+        }
+
+        function updateScoreDisplay() {
+            const scoreElement = document.getElementById('scoreText');
+            const circleElement = document.getElementById('scoreCircle');
+            
+            scoreElement.textContent = `${score}/${Math.max(currentQuestionIndex, quizQuestions.length)}`;
+            
+            const percentage = currentQuestionIndex > 0 ? (score / currentQuestionIndex) * 100 : 0;
+            const angle = (percentage / 100) * 360;
+            circleElement.style.setProperty('--score-angle', `${angle}deg`);
+        }
+
+        // Challenge System
+        function loadDailyChallenge() {
+            const today = new Date().toDateString();
+            if (streakData.lastChallengeDate !== today) {
+                const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)];
+                document.getElementById('challengeText').textContent = randomChallenge;
+            }
+        }
+
+        function acceptChallenge() {
+            const today = new Date().toDateString();
+            if (streakData.lastChallengeDate !== today) {
+                streakData.acceptStreak++;
+                streakData.totalPoints += 25;
+                streakData.lastChallengeDate = today;
+                
+                document.querySelector('.challenge-container').innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <h2 style="color: #4ade80; margin-bottom: 20px;">Challenge Accepted! 🚀</h2>
+                        <p style="font-size: 1.2rem; margin-bottom: 20px;">
+                            +25 Discipline Points earned!
+                        </p>
+                        <p style="color: #ffd700;">
+                            Every disciplined action today brings you closer to your $480K goal this year.
+                        </p>
+                        <div style="margin-top: 30px; font
