@@ -362,12 +362,339 @@
 
         <div class="tabs">
             <button class="tab active" onclick="showTab('quiz')">Daily Quiz</button>
+            <button class="tab" onclick="showTab('quarterly')">Quarterly Goals</button>
             <button class="tab" onclick="showTab('projection')">5-Year Vision</button>
             <button class="tab" onclick="showTab('challenge')">Daily Challenge</button>
             <button class="tab" onclick="showTab('progress')">My Progress</button>
         </div>
 
-        <!-- Daily Quiz Tab -->
+        <!-- Quarterly Goals Tab -->
+        <div id="quarterly" class="tab-content">
+            <div class="quiz-container">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #ffd700;">Quarterly Achievement Tracker</h2>
+                <p style="text-align: center; margin-bottom: 40px; font-size: 1.2rem; opacity: 0.9;">
+                    Track every milestone on your journey from $30K to $31.5B
+                </p>
+                
+                <!-- 2025 Quarters -->
+                <div class="year-section">
+                    <h3 class="year-title">2025 - Foundation Year ($30K → $480K)</h3>
+                    
+                    <div class="quarter-grid">
+                        <div class="quarter-card completed">
+                            <div class="quarter-header">
+                                <h4>Q1 2025</h4>
+                                <div class="quarter-status completed">✅ COMPLETED</div>
+                            </div>
+                            <div class="quarter-amount">$30K → $60K</div>
+                            <div class="quarter-growth">+100% Growth</div>
+                            
+                            <div class="achievements-list">
+                                <label class="achievement-item completed">
+                                    <input type="checkbox" checked disabled>
+                                    <span>Doubled initial capital</span>
+                                </label>
+                                <label class="achievement-item completed">
+                                    <input type="checkbox" checked disabled>
+                                    <span>Maintained 100% quarterly return</span>
+                                </label>
+                                <label class="achievement-item completed">
+                                    <input type="checkbox" checked disabled>
+                                    <span>Established consistent trading pattern</span>
+                                </label>
+                                <label class="achievement-item completed">
+                                    <input type="checkbox" checked disabled>
+                                    <span>Risk management protocols active</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="quarter-card current">
+                            <div class="quarter-header">
+                                <h4>Q2 2025</h4>
+                                <div class="quarter-status current">🎯 CURRENT</div>
+                            </div>
+                            <div class="quarter-amount">$60K → $120K</div>
+                            <div class="quarter-growth">+100% Target</div>
+                            
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Reach $120K portfolio value</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Complete 90 days of disciplined trading</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Refine strategy based on Q1 learnings</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Document all trades with detailed analysis</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Zero emotional trading days</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="quarter-card future">
+                            <div class="quarter-header">
+                                <h4>Q3 2025</h4>
+                                <div class="quarter-status future">📊 FUTURE</div>
+                            </div>
+                            <div class="quarter-amount">$120K → $240K</div>
+                            <div class="quarter-growth">+100% Target</div>
+                            
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Break $200K milestone</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Scale strategy with larger capital</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Maintain consistent performance</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Consider portfolio diversification</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Begin profit-taking strategy</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="quarter-card future">
+                            <div class="quarter-header">
+                                <h4>Q4 2025</h4>
+                                <div class="quarter-status future">🏆 FINALE</div>
+                            </div>
+                            <div class="quarter-amount">$240K → $480K</div>
+                            <div class="quarter-growth">+100% Target</div>
+                            
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Achieve $480K year-end goal</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Complete 1600% annual return</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Plan 2026 scaling strategy</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Establish tax optimization plan</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Celebrate becoming a trading master</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2026 Quarters -->
+                <div class="year-section">
+                    <h3 class="year-title">2026 - Acceleration Year ($480K → $7.7M)</h3>
+                    
+                    <div class="quarter-grid">
+                        <div class="quarter-card future">
+                            <div class="quarter-header">
+                                <h4>Q1 2026</h4>
+                                <div class="quarter-status future">🚀 SCALE</div>
+                            </div>
+                            <div class="quarter-amount">$480K → $960K</div>
+                            <div class="quarter-growth">First Million Approach</div>
+                            
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Break the $1M milestone</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Adapt strategy for larger positions</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Consider institutional-grade tools</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="quarter-card future">
+                            <div class="quarter-header">
+                                <h4>Q2 2026</h4>
+                                <div class="quarter-status future">💎 MILLION</div>
+                            </div>
+                            <div class="quarter-amount">$960K → $1.92M</div>
+                            <div class="quarter-growth">Multi-Millionaire Status</div>
+                            
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Surpass $2M portfolio</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Market impact considerations</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Professional wealth management</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="quarter-card future">
+                            <div class="quarter-header">
+                                <h4>Q3 2026</h4>
+                                <div class="quarter-status future">⚡ POWER</div>
+                            </div>
+                            <div class="quarter-amount">$1.92M → $3.84M</div>
+                            <div class="quarter-growth">Exponential Growth</div>
+                            
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>$4M portfolio milestone</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Multiple asset class exposure</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Risk distribution strategies</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="quarter-card future">
+                            <div class="quarter-header">
+                                <h4>Q4 2026</h4>
+                                <div class="quarter-status future">🎯 ELITE</div>
+                            </div>
+                            <div class="quarter-amount">$3.84M → $7.68M</div>
+                            <div class="quarter-growth">Elite Trader Status</div>
+                            
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>$7.7M year-end achievement</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Join top 0.1% of traders globally</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Prepare for 9-figure journey</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2027-2029 Quarters (Condensed) -->
+                <div class="year-section">
+                    <h3 class="year-title">2027-2029 - Billionaire Journey ($7.7M → $31.5B)</h3>
+                    
+                    <div class="milestone-grid">
+                        <div class="milestone-card">
+                            <h4>2027 Milestones</h4>
+                            <div class="milestone-amount">$123M</div>
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Break $100M barrier</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Nine-figure portfolio status</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Ultra-high-net-worth strategies</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="milestone-card">
+                            <h4>2028 Milestones</h4>
+                            <div class="milestone-amount">$1.97B</div>
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Achieve billionaire status</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Global wealth ranking</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Institutional partnerships</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="milestone-card">
+                            <h4>2029 Milestones</h4>
+                            <div class="milestone-amount">$31.5B</div>
+                            <div class="achievements-list">
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>$31.5B ultimate goal</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>World's top traders list</span>
+                                </label>
+                                <label class="achievement-item">
+                                    <input type="checkbox" onchange="updateAchievement(this)">
+                                    <span>Financial legacy established</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quarterly-stats">
+                    <div class="stat-summary">
+                        <h3>Your Achievement Progress</h3>
+                        <div class="progress-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="completedAchievements">4</span>
+                                <span class="stat-label">Completed</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="totalAchievements">45</span>
+                                <span class="stat-label">Total Goals</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="completionRate">9%</span>
+                                <span class="stat-label">Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="quiz" class="tab-content active">
             <div class="quiz-container">
                 <div class="quiz-score">
