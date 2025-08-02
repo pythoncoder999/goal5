@@ -799,4 +799,221 @@
                         <p style="color: #ffd700;">
                             Every disciplined action today brings you closer to your $480K goal this year.
                         </p>
-                        <div style="margin-top: 30px; font
+                        <div style="margin-top: 30px; font-size: 1.1rem; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px;">
+                            Remember: Discipline today = Millions tomorrow
+                        </div>
+                    </div>
+                `;
+                
+                saveStreakData();
+            }
+        }
+
+        function declineChallenge() {
+            document.querySelector('.challenge-container').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: #ff6b6b; margin-bottom: 20px;">Maybe Tomorrow? 🤔</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">
+                        No worries! Every champion has off days.
+                    </p>
+                    <p style="color: #ffd700;">
+                        But remember: Your competitors are working while you rest.
+                    </p>
+                    <div style="margin-top: 30px; font-size: 1.1rem; background: rgba(255,107,107,0.1); padding: 20px; border-radius: 15px;">
+                        Tomorrow's challenge will be waiting for you! 💪
+                    </div>
+                    <button onclick="location.reload()" style="padding: 12px 25px; background: linear-gradient(45deg, #4ade80, #22c55e); border: none; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; margin-top: 20px;">
+                        Try Again
+                    </button>
+                </div>
+            `;
+        }
+
+        // Initialize app
+        function initializeApp() {
+            loadStreakData();
+            loadQuestion();
+            loadDailyChallenge();
+            
+            // Random motivational quote
+            const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+            document.getElementById('motivationalQuote').textContent = `"${randomQuote}"`;
+            
+            // Add some dynamic elements
+            setInterval(() => {
+                const quoteElement = document.getElementById('motivationalQuote');
+                if (quoteElement && Math.random() > 0.95) { // 5% chance every interval
+                    const newQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+                    quoteElement.textContent = `"${newQuote}"`;
+                }
+            }, 3000);
+        }
+
+        // Add floating animations and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            
+            // Add some interactive elements
+            const yearCards = document.querySelectorAll('.year-card');
+            yearCards.forEach((card, index) => {
+                card.addEventListener('click', function() {
+                    this.style.animation = 'pulse 0.6s ease-out';
+                    setTimeout(() => {
+                        this.style.animation = '';
+                    }, 600);
+                });
+            });
+
+            // Add countdown timer for next trading day
+            function updateCountdown() {
+                const now = new Date();
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(9, 30, 0, 0); // 9:30 AM next day
+                
+                const diff = tomorrow - now;
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                
+                // You could add this countdown somewhere in the UI if desired
+            }
+            
+            setInterval(updateCountdown, 60000); // Update every minute
+        });
+
+        // Add keyboard shortcuts for power users
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '1') showTab('quiz');
+            if (e.key === '2') showTab('projection');
+            if (e.key === '3') showTab('challenge');
+            if (e.key === '4') showTab('progress');
+        });
+
+        // Add achievement system
+        function checkAchievements() {
+            const achievements = [];
+            
+            if (streakData.quizStreak >= 7) {
+                achievements.push("Week Warrior - 7 days of quiz completion!");
+            }
+            if (streakData.acceptStreak >= 5) {
+                achievements.push("Challenge Champion - 5 challenges accepted!");
+            }
+            if (streakData.totalPoints >= 100) {
+                achievements.push("Discipline Master - 100+ points earned!");
+            }
+            
+            if (achievements.length > 0) {
+                // Could show achievement notifications
+                console.log("Achievements unlocked:", achievements);
+            }
+        }
+
+        // Risk management calculator
+        function calculatePositionSize(accountSize, riskPercent, entryPrice, stopLoss) {
+            const riskAmount = accountSize * (riskPercent / 100);
+            const riskPerShare = Math.abs(entryPrice - stopLoss);
+            return Math.floor(riskAmount / riskPerShare);
+        }
+
+        // Compound growth calculator
+        function calculateCompoundGrowth(principal, rate, periods) {
+            return principal * Math.pow(1 + rate, periods);
+        }
+
+        // Trading session timer
+        let sessionStartTime = null;
+        
+        function startTradingSession() {
+            sessionStartTime = new Date();
+            // Could add session tracking UI
+        }
+
+        function endTradingSession() {
+            if (sessionStartTime) {
+                const sessionLength = new Date() - sessionStartTime;
+                const hours = Math.floor(sessionLength / (1000 * 60 * 60));
+                const minutes = Math.floor((sessionLength % (1000 * 60 * 60)) / (1000 * 60));
+                
+                // Award points for focused trading sessions
+                if (hours >= 1) {
+                    streakData.totalPoints += 15;
+                    saveStreakData();
+                }
+            }
+        }
+
+        // Add random success tips
+        const successTips = [
+            "Your $30K → $60K in Q1 proves your strategy works. Trust the process.",
+            "Risk management isn't limiting gains, it's preserving capital for compound growth.",
+            "Every emotional trading decision costs you compound returns down the line.",
+            "The market pays premium prices for patience and discipline.",
+            "Your 100% quarterly return puts you in the top 1% of traders worldwide.",
+            "Focus on process, not profits. Profits are the byproduct of good process.",
+            "The difference between $60K and $31.5B is just consistent execution.",
+            "Every day you don't trade emotionally is a day closer to your goals."
+        ];
+
+        function showRandomTip() {
+            if (Math.random() > 0.7) { // 30% chance
+                const tip = successTips[Math.floor(Math.random() * successTips.length)];
+                
+                // Create floating tip notification
+                const tipDiv = document.createElement('div');
+                tipDiv.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(45deg, #4ade80, #22c55e);
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 15px;
+                    max-width: 300px;
+                    z-index: 1000;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                    animation: slideInRight 0.5s ease-out;
+                `;
+                tipDiv.textContent = tip;
+                
+                document.body.appendChild(tipDiv);
+                
+                setTimeout(() => {
+                    tipDiv.style.animation = 'slideOutRight 0.5s ease-out';
+                    setTimeout(() => tipDiv.remove(), 500);
+                }, 5000);
+            }
+        }
+
+        // Show tips periodically
+        setInterval(showRandomTip, 30000); // Every 30 seconds
+
+        // Add CSS for tip animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Market hours checker
+        function isMarketOpen() {
+            const now = new Date();
+            const day = now.getDay();
+            const hour = now.getHours();
+            
+            // Basic market hours check (weekdays 9:30 AM - 4:00 PM ET)
+            return day >= 1 && day <= 5 && hour >= 9 && hour < 16;
+        }
+
+        // Initialize everything when page loads
+        initializeApp();
+    </script>
+</body>
+</html>
